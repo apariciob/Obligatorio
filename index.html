@@ -124,31 +124,30 @@
 			<!--ventana ingreso marca-->
 			<div calss="ventana" id="ventanaIngresoMarca" class="panel">
 				<h1>Ingreso de Marca</h1>
+				<div>
+					<label for="IngresoMarca">Categoria: </label>
+					<select id="selecCat">
+						<option>Seleccione una Categoria</option>
+						<option>Atletismo I</option>
+						<option>Atletismo II</option>
+						<option>Nataci&oacute;n</option>
+					</select>
+				</div>
 				<form id="ingresoMarcaForm">
-					<div>
-						<label for="IngresoMarca">Categoria: </label>
-						<select id="selecCat">
-								<option>Seleccione una Categoria</option>
-								<option>Atletismo I</option>
-								<option>Atletismo II</option>
-								<option>Nataci&oacute;n</option>
-						</select>
-						
-					</div>
 					<div id="atletismo">
 					
 						<label for="Atletismo1">Atletismo I: </label>
 						<div class ="disciplinas">
 							<div>
-								<input type="radio" name="atletismo1" value="100mllanos"><span>100m llanos</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="100mllanos"><span>100m llanos</span><br>
 					
-								<input type="radio" name="atletismo1" value="200mllanos"><span>200m llanos</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="200mllanos"><span>200m llanos</span><br>
 					
-								<input type="radio" name="atletismo1" value="400mllanos"><span>400m llanos</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="400mllanos"><span>400m llanos</span><br>
 					
-								<input type="radio" name="atletismo1" value="800mllanos"><span>800m llanos</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="800mllanos"><span>800m llanos</span><br>
 					
-								<input type="radio" name="atletismo1" value="110mconvallas"> <span>110m con vallas</span>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="110mconvallas"> <span>110m con vallas</span>
 							</div>
 						</div>
 						
@@ -157,36 +156,36 @@
 					
 						<label for="AtletismoII">Atletismo II: </label>
 						<div class="disciplinas">
-								<input type="radio" name="atletismo2" value="salto largo"><span>Salto largo</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo2" value="salto largo"><span>Salto largo</span><br>
 					
-								<input type="radio" name="atletismo2" value="salto alto"><span>Salto alto</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo2" value="salto alto"><span>Salto alto</span><br>
 					
-								<input type="radio" name="atletismo1" value="lanzamiento de jabalina"><span>Lanzamiento de jabalina</span><br>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="lanzamiento de jabalina"><span>Lanzamiento de jabalina</span><br>
 					
-								<input type="radio" name="atletismo1" value="lanzamiento de bala"><span>Lanzamiento de bala</span>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="lanzamiento de bala"><span>Lanzamiento de bala</span>
 						</div>
 						
 					</div>
 					<div id="natacion">
 						<label for="Natacion">Nataci&oacute;n: </label>
 						<div class="disciplinas">
-							<input type="radio" name="natacion" value="200m libres"><span>200m libres</span><br>
-							<input type="radio" name="natacion" value="100m mariposa"><span>100m mariposa</span><br>
-							<input type="radio" name="natacion" value="100m espalda"><span>100m espalda</span><br>
-							<input type="radio" name="natacion" value="100m pecho"><span>100m pecho</span>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="200m libres"><span>200m libres</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100m mariposa"><span>100m mariposa</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100m espalda"><span>100m espalda</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100m pecho"><span>100m pecho</span>
 						</div>
 						
 						
 					</div>
 					<div id="marcaCat">
 						<label for="marca">Ingrese nueva marca: </label>
-						<input class="marca" type="text">
+						<input class="marca" id="marca" type="text">
 						<span class="errTxtMarca" class="mensaje"></span>
+						<div class="divBoton">
+							<input type="button" value="Ingresar Marca" class="boton" id="btnIngresarMarca">
+						</div>
 					</div>
 					
-					<div class="divBoton">
-							<input type="button" value="Ingresar Marca" class="boton" id="btnRegistrar">
-					</div>
 				</form>
 			</div>
 			<div calss="ventana" id="ventanaMarcaAtl" class="panel">
