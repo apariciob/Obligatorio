@@ -318,8 +318,10 @@ function ingresarMarca(){
 		}
 		alert("Ingreso de marca correcto");
 
+		$("#ingresoMarcaForm").trigger("reset");
+		$(".errMarca").remove();
 		//debug
-		for (var i = 0; i <= lstMarcasNatacion.length; i++) {
+		for (var i = 0; i < lstMarcasNatacion.length; i++) {
 	    	console.log(lstMarcasNatacion[i]);
 	    }
 		
