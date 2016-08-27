@@ -69,6 +69,7 @@
 		</div>
 		<!--Fin Carusel-->
 		<div class="cuerpo">
+			<!--ventana registro atleta-->
 			<div calss="ventana" id="ventanaReg" class="panel">
 				<h1>Registro de Atleta</h1>
 				<form id="regAtlForm">
@@ -178,8 +179,6 @@
 							<input type="radio" class="radioIngresoMarca" name="natacion" value="100mEspalda"><span>100m espalda</span><br>
 							<input type="radio" class="radioIngresoMarca" name="natacion" value="100mPecho"><span>100m pecho</span>
 						</div>
-						
-						
 					</div>
 					<div id="marcaCat">
 						<label for="marca">Ingrese nueva marca: </label>
@@ -189,22 +188,25 @@
 							<input type="button" value="Ingresar Marca" class="boton" id="btnIngresarMarca">
 						</div>
 					</div>
-					
 				</form>
 			</div>
+			<!--ventana registro marca atleta-->
 			<div calss="ventana" id="ventanaMarcaAtl" class="panel">
 				<h1>Registro de Marca</h1>
 				<form id="regMarcaForm">
 					<div>
-						<label for="atletas">Atletas: </label>
-						<select id="atl">
-							<option>Seleccione un Atleta</option>
-						</select>
-					</div>
-					<div>
 						<label for="disciplinas">Disciplinas: </label>
 						<select id="disc">
 							<option>Seleccione una Disciplina</option>
+						</select>
+					</div>
+					<div class="divBoton">
+							<input type="button" value="Cargar Atletas" class="boton" id="btnMostrarAtl">
+						</div>
+					<div id="atlDiv">
+						<label for="atletas">Atletas: </label>
+						<select id="atl">
+							<option>Seleccione un Atleta</option>
 						</select>
 					</div>
 				</form>

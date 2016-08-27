@@ -9,7 +9,6 @@ header {
 }
 body{
 	margin:0px 0px 0px 0px;
-	/*background-image: url(../img/fondo.jpg);*/
 	background-repeat:no-repeat;
 	background-size:cover;
 	
@@ -46,7 +45,7 @@ footer {
 	background-color: #111111;
 	cursor:pointer;
 }
-.encabezado, .disciplinas{
+.encabezado, .disciplinas,.divBoton, .alinear{
 	text-align:center;	
 }
 
@@ -84,7 +83,7 @@ footer {
 .panel label:focus, .panel input:focus,.panel select:focus{
 	outline:none;
 }		
-.panel form [type=text], #ventanaRegistro form [type=password], .panel form textarea , #ventanaRegistro select{
+.panel form [type=text], #ventanaReg form [type=password], .panel form textarea , #ventanaReg select{
 	width: 150px;
 	padding: 3px;
 }
@@ -96,10 +95,8 @@ footer {
 	font-weight: bold;
 	vertical-align: top;
 }
-
-.alinear{
-	
-	text-align:center
+.disciplinas input{
+	display:block;
 }
 		
 .boton {
@@ -108,7 +105,3 @@ footer {
 	margin: 5px 0;
 }
 
-.divBoton{
-	text-align:center;
-	
-}

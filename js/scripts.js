@@ -1,3 +1,5 @@
+//no consegui resetear formulario muestra doble las dis!!! fun registro marca
+//en funcion botonMostrarAtl no consegui acceder a los postulantes dependiendo la dis, corregir
 var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra'];
 var postulantes = [];
 var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
@@ -24,13 +26,17 @@ function inicio(){
 	$("#atletismo2").hide();
 	$("#natacion").hide();
 	$("#marcaCat").hide();
-
+	$("#atlDiv").hide();
 	//llenando el select
 	var count = 0;
 	$(arrayPaises).each(function(){
 		$('#pais').append(new Option(arrayPaises[count]));
 		count++;
-	})
+	});
+	/*for (var i = 0; postulantes.length > i; i++) {
+		if () {}
+		$("#atl").html("<option></option>")
+	}*/
 	//***********Cambiar Pestañas***********//
 	//Click Pestaña registrar atleta
 	$("#btnRegAtl").click(registroAtleta);
@@ -51,7 +57,8 @@ function inicio(){
 	
 	//click marca atleta
 	$("#btnRegMarca").click(registroMarca);
-	
+	//click boton cargar atletas por dis
+	$("#btnMostrarAtl").click(botonMostrarAtl);
 	//click tarjeta atleta
 	$("#btnTarAtl").click(tarjetaAtleta);
 	
@@ -94,7 +101,6 @@ function inicio(){
 		paisAtl = $("#pais").val();
 		$("#errPaisAtl").remove();
 		if(paisAtl !== "Seleccione un País..."){
-			console.log("entre al if"+ paisAtl);
 			$("#errTxtPais").html('<img id="errPaisAtl" src="img/ok.jpg" />');
 			$("#paisInput").val(paisAtl);
 		}
@@ -154,7 +160,23 @@ function ingresoMarca(){
 }
 function registroMarca(){
 	mostrarmenu("#ventanaMarcaAtl",this,"#regMarcaForm","#atl");
+	//cargamos las disciplinas que tengan marca
 	
+	for (var i = 0;  lstMarcasAtletismoI.length > i; i=i+2) {
+		if(lstMarcasAtletismoI[i+1]>0){
+		$("#disc").append("<option>"+lstMarcasAtletismoI[i]+"</option>");
+		}
+	}
+	for (var i = 0;  lstMarcasAtletismoII.length > i; i=i+2) {
+		if(lstMarcasAtletismoII[i+1]>0){
+		$("#disc").append("<option>"+lstMarcasAtletismoII[i]+"</option>");
+		}
+	}
+	for (var i = 0;  lstMarcasNatacion.length > i; i=i+2) {
+		if(lstMarcasNatacion[i+1]>0){
+		$("#disc").append("<option>"+lstMarcasNatacion[i]+"</option>");
+		}
+	}
 }
 function tarjetaAtleta(){
 	mostrarmenu("#ventanaTarjAtl",this,"#tarjAtlForm","#atl2");
@@ -317,14 +339,9 @@ function ingresarMarca(){
 			break;
 		}
 		alert("Ingreso de marca correcto");
-
+		//reseteo campos
 		$("#ingresoMarcaForm").trigger("reset");
-		$(".errMarca").remove();
-		//debug
-		for (var i = 0; i < lstMarcasNatacion.length; i++) {
-	    	console.log(lstMarcasNatacion[i]);
-	    }
-		
+		$(".errMarca").remove();		
 	}else{
 		var msjRadioBtn = "Error!: ";
 		if($('input[class="radioIngresoMarca"]:checked').length === 0){
@@ -335,6 +352,30 @@ function ingresarMarca(){
 		}
 		alert(msjRadioBtn);
 	}
-
-
 }
+function botonMostrarAtl(){
+
+	var dis = $("#disc").val();
+	var ok= false;
+	if(dis !== "Seleccione una Disciplina"){	
+		console.log("entre al if !")
+		for (var i = 0; postulantes.length >i; i++) {
+			if (postulantes[i].atletismo1 === dis) {
+				ok= true;
+				$("#atl").append("<option>"+postulantes[i]+"</option>");
+			}
+			if (postulantes[i].atletismo2 === dis) {
+				ok= true;
+				$("#atl").append("<option>"+postulantes[i]+"</option>");
+			}
+			if (postulantes[i].natacion === dis) {
+				ok= true;
+				$("#atl").append("<option>"+postulantes[i]+"</option>");
+			}
+		}
+		if (ok) {
+			$("#atlDiv").fadeIn();
+		}
+	}
+}
+
