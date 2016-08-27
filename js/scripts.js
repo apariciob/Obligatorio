@@ -4,9 +4,9 @@ var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
 var  atletismo1 = [];
 var atletismo2 = [];
 var natacion = [];
-
-var lstMarcasAtletismoI = ["100mllanos", "0", "200mllanos", "0", "400mllanos", "0", "800mllanos", "0", "110mconvallas", "0"];
-var lstMarcasAtletismoII = ["saltoLargo", "0", "saltoLargo", "0", "saltoAlto", "0","lanzamientoJabalina","0", "lanzamiento de bala", "0"];
+//lista de marcas
+var lstMarcasAtletismoI = ["100mLlanos", "0", "200mLlanos", "0", "400mLlanos", "0", "800mLlanos", "0", "110mConVallas", "0"];
+var lstMarcasAtletismoII = ["saltoLargo", "0", "saltoAlto", "0","lanzamientoDeJabalina","0", "lanzamientoDeBala", "0"];
 var lstMarcasNatacion = ["200mLibres", "0", "100mMariposa", "0", "100mEspalda", "0", "100mPecho", "0"];
 
 //var nomAtl, apAtl, telPost, edPost, sexoPost, expPost, manejaProgramasPost, programasPost; // Variables postulante
@@ -221,8 +221,7 @@ function mostrarMarca(){
         break;
         case "Natación": 
         $("#natacion").fadeIn(1000);
-        $("#marcaCat1").fadeIn(1000);
-        $("#marcaCat2").hide();
+        $("#marcaCat").fadeIn(1000);
 		$("#atletismo2").hide();
 		$("#atletismo").hide();
 		$("#ingresoMarcaForm").trigger("reset");
@@ -291,6 +290,7 @@ function ingresarMarca(){
 	marca = $('#marca').val();
 
 	if( $('input[class="radioIngresoMarca"]:checked').length === 1 &&  $(".errMarca").attr("src") == ok){
+		console.log(categorias);
 		switch(categorias){
 			case "Atletismo I":
 			    for (var i = 0; i <= lstMarcasAtletismoI.length; i=i+2) {
