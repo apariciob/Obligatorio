@@ -44,10 +44,10 @@ function inicio(){
 	//Click btn registrar atleta
 	$("#btnRegistrar").click(botonRegistrarAtleta);
 	
-	//click ingresar marca
+	//click ingresar marca pestaña
 	$("#btnIngresoMarca").click(ingresoMarca);
 
-	//Click ingresar Marca
+	//Click al select categorias de la pestaña ingresar Marca
 
 	$("#selecCat").click(mostrarMarca);
 
@@ -57,7 +57,7 @@ function inicio(){
 	
 	//click marca atleta
 	$("#btnRegMarca").click(registroMarca);
-	//click boton cargar atletas por dis
+	//click boton cargar atletas
 	$("#btnMostrarAtl").click(botonMostrarAtl);
 	//click tarjeta atleta
 	$("#btnTarAtl").click(tarjetaAtleta);
@@ -160,23 +160,6 @@ function ingresoMarca(){
 }
 function registroMarca(){
 	mostrarmenu("#ventanaMarcaAtl",this,"#regMarcaForm","#atl");
-	//cargamos las disciplinas que tengan marca
-	
-	for (var i = 0;  lstMarcasAtletismoI.length > i; i=i+2) {
-		if(lstMarcasAtletismoI[i+1]>0){
-		$("#disc").append("<option>"+lstMarcasAtletismoI[i]+"</option>");
-		}
-	}
-	for (var i = 0;  lstMarcasAtletismoII.length > i; i=i+2) {
-		if(lstMarcasAtletismoII[i+1]>0){
-		$("#disc").append("<option>"+lstMarcasAtletismoII[i]+"</option>");
-		}
-	}
-	for (var i = 0;  lstMarcasNatacion.length > i; i=i+2) {
-		if(lstMarcasNatacion[i+1]>0){
-		$("#disc").append("<option>"+lstMarcasNatacion[i]+"</option>");
-		}
-	}
 }
 function tarjetaAtleta(){
 	mostrarmenu("#ventanaTarjAtl",this,"#tarjAtlForm","#atl2");
@@ -315,26 +298,68 @@ function ingresarMarca(){
 		console.log(categorias);
 		switch(categorias){
 			case "Atletismo I":
+				var agregarALSelect = true;
 			    for (var i = 0; i <= lstMarcasAtletismoI.length; i=i+2) {
 			    	if(lstMarcasAtletismoI[i] === disciplinas){
 			    		lstMarcasAtletismoI[i+1] = marca;
+			    		var discOption = [];
+			    		discOption = $("#disc option"); 
+			        	for(var i = 0; i< discOption.length; i++){
+			        		var valorSelect = $(discOption[i]).val();
+			        		if(valorSelect === disciplinas){
+			        			agregarALSelect = false;
+			    			}	
+			        	}
 			    	}
+			    }
+			    if(agregarALSelect == true){
+			    	$("#disc").append("<option value="+disciplinas+">"+disciplinas+"</option>");
 			    }
 			break;
 
 			case "Atletismo II":
+				//comentario parte1: creo una var boolean par append el select de dis de registro de marcar
+				var agregarALSelect = true;
+
 				for (var i = 0; i <= lstMarcasAtletismoII.length; i=i+2) {
 			    	if(lstMarcasAtletismoII[i] === disciplinas){
 			    		lstMarcasAtletismoII[i+1] = marca;
+			    		//comentario parte2: recoro el selec de las dis en registro de marcas para comrpobar que no se repita
+			    		//con la disciplina cual estoy por agregar
+			    		var discOption = [];
+			    		discOption = $("#disc option"); 
+			        	for(var i = 0; i< discOption.length; i++){
+			        		var valorSelect = $(discOption[i]).val();
+			        		if(valorSelect === disciplinas){
+			        			agregarALSelect = false;
+			    			}	
+			        	}
 			    	}
+			    }
+			    //comentario parte3: y a ca compruebo si no esta en el select lo agrego al select
+			    //lo hago igual en las otras 2 categorias. 
+			    if(agregarALSelect == true){
+			    	$("#disc").append("<option value="+disciplinas+">"+disciplinas+"</option>");
 			    }
 			break;
 
 			case "Natación":
+				var agregarALSelect = true;
 				for (var i = 0; i <= lstMarcasNatacion.length; i=i+2) {
 			    	if(lstMarcasNatacion[i] === disciplinas){
 			    		lstMarcasNatacion[i+1] = marca;
+			    		var discOption = [];
+			    		discOption = $("#disc option"); 
+			        	for(var i = 0; i< discOption.length; i++){
+			        		var valorSelect = $(discOption[i]).val();
+			        		if(valorSelect === disciplinas){
+			        			agregarALSelect = false;
+			    			}	
+			        	}
 			    	}
+			    }
+			    if(agregarALSelect == true){
+			    	$("#disc").append("<option value="+disciplinas+">"+disciplinas+"</option>");
 			    }
 			break;
 		}
@@ -358,19 +383,21 @@ function botonMostrarAtl(){
 	var dis = $("#disc").val();
 	var ok= false;
 	if(dis !== "Seleccione una Disciplina"){	
-		console.log("entre al if !")
 		for (var i = 0; postulantes.length >i; i++) {
-			if (postulantes[i].atletismo1 === dis) {
+			var postulanteDis = postulantes[i].atletismo1;
+			if (postulanteDis == dis) {
 				ok= true;
-				$("#atl").append("<option>"+postulantes[i]+"</option>");
+				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 			}
-			if (postulantes[i].atletismo2 === dis) {
+			var postulanteDis = postulantes[i].atletismo2;
+			if (postulanteDis.atletismo2 == dis) {
 				ok= true;
-				$("#atl").append("<option>"+postulantes[i]+"</option>");
+				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 			}
-			if (postulantes[i].natacion === dis) {
+			var postulanteDis = postulantes[i].natacion;
+			if (postulanteDis.natacion == dis) {
 				ok= true;
-				$("#atl").append("<option>"+postulantes[i]+"</option>");
+				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 			}
 		}
 		if (ok) {
