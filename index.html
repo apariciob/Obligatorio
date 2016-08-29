@@ -104,9 +104,9 @@
 						<h4>Atletismo 1</h4>
 							<input type="checkbox" name="Atletismo_1[]" value="100mLlanos"><span>100m llanos</span><br>
 							<input type="checkbox" name="Atletismo_1[]" value="200mLlanos"><span>200m llanos</span><br>
-							<input type="checkbox" name="Atletismo_1[]" value="110mConVallas"><span>110m con vallas</span><br>
 							<input type="checkbox" name="Atletismo_1[]" value="400mLlanos"><span>400m llanos</span><br>
-							<input type="checkbox" name="Atletismo_1[]" value="800mLlanos"><span>800m llanos</span>
+							<input type="checkbox" name="Atletismo_1[]" value="800mLlanos"><span>800m llanos</span><br>
+							<input type="checkbox" name="Atletismo_1[]" value="110mConVallas"><span>110m con vallas</span>
 						<h4>Atletismo 2</h4>
 							<input type="checkbox" name="Atletismo_2[]" value="saltoLargo"><span>Salto largo</span><br>
 							<input type="checkbox" name="Atletismo_2[]" value="saltoAlto"><span>Salto alto</span><br>
@@ -205,6 +205,12 @@
 						<select id="atl">
 							<option>Seleccione un Atleta</option>
 						</select>
+						<div class="divBoton">
+						<label for="marca">Ingrese la marca del Atleta: </label>
+						<input class="marca" id="marca" type="text">
+						<span class="errTxtMarca" class="mensaje"></span>
+						<input type="button" value="Registrar Marca" class="boton" id="bntRegistrarMarca">
+					</div>
 					</div>
 				</form>
 			</div>
@@ -288,9 +294,6 @@
 				<h1>Atletas Clasificados</h1>
 				<form id="atlClasiForm">
 				<div id="piechart"></div>
-				<div class="divBoton">
-						<input type="button" value="Mostrar" class="boton" id="btnMostrarGrafica">
-				</div>
 				</form>
 			</div>
 			</div>

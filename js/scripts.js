@@ -1,15 +1,13 @@
-var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra'];
+var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra','Jamaica','Japon','Chile','Colombia','Cuba','Dinamarca','Ecuador','España','Grecia'];
 var postulantes = [];
 var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
-var  atletismo1 = [];
+var atletismo1 = [];
 var atletismo2 = [];
 var natacion = [];
 //lista de marcas
 var lstMarcasAtletismoI = ["100mLlanos", "0", "200mLlanos", "0", "400mLlanos", "0", "800mLlanos", "0", "110mConVallas", "0"];
 var lstMarcasAtletismoII = ["saltoLargo", "0", "saltoAlto", "0","lanzamientoDeJabalina","0", "lanzamientoDeBala", "0"];
 var lstMarcasNatacion = ["200mLibres", "0", "100mMariposa", "0", "100mEspalda", "0", "100mPecho", "0"];
-
-//var nomAtl, apAtl, telPost, edPost, sexoPost, expPost, manejaProgramasPost, programasPost; // Variables postulante
 
 $(document).ready(inicio);
 
@@ -53,6 +51,9 @@ function inicio(){
 
 	//Click al select categorias de la pestaña ingresar Marca
 	$("#selecCat").click(mostrarMarca);
+
+	//click en boton registrar marca atleta
+	$("#bntRegistrarMarca").click(botonRegistrarMarcaAtleta);
 
 	//click boton cargar atletas
 	$("#btnMostrarAtl").click(botonMostrarAtl);
@@ -105,7 +106,6 @@ function inicio(){
 			$("#paisInput").val(paisAtl);
 		}
 		else {
-			console.log("entre al else"+ paisAtl);
 			$("#errTxtPais").html('<img id="errPaisAtl" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
 			$("#paisInput").val(paisAtl);
 		}
@@ -120,7 +120,6 @@ function inicio(){
 			$("#errTxtEdad").html('<img id="errEdadAtl" src="img/ok.jpg" />');
 		}
 		else {
-			console.log("entre al else"+ edadAtl);
 			$("#errTxtEdad").html('<img id="errEdadAtl" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
 		}
 		$("#errEdadAtl").css("width",20);
@@ -271,58 +270,6 @@ function mostrarDisciplinas(){
         break;
     }
 }
-function botonRegistrarAtleta(){
-	var ok= "img/ok.jpg"; // Declaro variable para checkear que los campos esten bien
-	
-	if($("#errnomAtl").attr("src") == ok && $("#errapAtl").attr("src") == ok && $('input[type=checkbox]:checked').length > 0)
-	{
-		
-		$('input[name="Atletismo_1[]"]:checked').each(function() {
-			atletismo1.push($(this).val());
-			//console.log(atletismo1);
-		});
-		$('input[name="Atletismo_2[]"]:checked').each(function() {
-			atletismo2.push($(this).val());
-		});
-		$('input[name="Natacion[]"]:checked').each(function() {
-			natacion.push($(this).val());
-		});
-
-		ultimoAtl = postulantes.length+1;
-
-		var post= // Creo Atleta con los datos ya validados
-		{ 
-			"nombre": nomAtl,
-			"apellido": apAtl,
-			"pais": paisAtl,
-			"edad": edadAtl,
-			"numeroAtl": ultimoAtl,
-			"atletismo1": atletismo1,
-			"atletismo2": atletismo2,
-			"natacion": natacion
-		}
-
-		postulantes.push(post); // Lo agrego array*/
-		$("#atl2").append("<option value="+ultimoAtl+">"+"Nombre: "+nomAtl+" "+apAtl+"</option>");
-		alert("Candidato agregado con exito. Su N° es "+ ultimoAtl);
-		console.log(postulantes);
-		
-		$("#regAtlForm").trigger("reset"); // Limpio todos los campos
-		// Reinicio todas las imagenes de error
-		$("#errTxtNombre").html('');
-		$("#errTxtApellido").html('');
-		$("#errTxtPais").html('');
-		$("#errTxtEdad").html('');
-		$("#txtNombre").focus(); // Focus al primer campo del formulario
-	}
-	else {
-		var mensaje = "";
-		if($('input[type=checkbox]:checked').length === 0){
-			mensaje = "Debes elejir al menos una disciplinas";
-		}
-		alert("Error en los campos de registro de Atleta.\n"+mensaje);
-		}
-}
 function ingresarMarca(){
 	var ok= "img/ok.jpg";
 	var categorias, disciplinas, marca;
@@ -335,7 +282,7 @@ function ingresarMarca(){
 		switch(categorias){
 			case "Atletismo I":
 				var agregarALSelect = true;
-			    for (var i = 0; i <= lstMarcasAtletismoI.length; i=i+2) {
+			    for (var i = 0; i < lstMarcasAtletismoI.length; i=i+2) {
 			    	if(lstMarcasAtletismoI[i] === disciplinas){
 			    		lstMarcasAtletismoI[i+1] = marca;
 			    		var discOption = [];
@@ -357,7 +304,7 @@ function ingresarMarca(){
 				//comentario parte1: creo una var boolean par append el select de dis de registro de marcar
 				var agregarALSelect = true;
 
-				for (var i = 0; i <= lstMarcasAtletismoII.length; i=i+2) {
+				for (var i = 0; i < lstMarcasAtletismoII.length; i=i+2) {
 			    	if(lstMarcasAtletismoII[i] === disciplinas){
 			    		lstMarcasAtletismoII[i+1] = marca;
 			    		//comentario parte2: recoro el selec de las dis en registro de marcas para comrpobar que no se repita
@@ -381,7 +328,7 @@ function ingresarMarca(){
 
 			case "Natación":
 				var agregarALSelect = true;
-				for (var i = 0; i <= lstMarcasNatacion.length; i=i+2) {
+				for (var i = 0; i < lstMarcasNatacion.length; i=i+2) {
 			    	if(lstMarcasNatacion[i] === disciplinas){
 			    		lstMarcasNatacion[i+1] = marca;
 			    		var discOption = [];
@@ -409,35 +356,113 @@ function ingresarMarca(){
 			msjRadioBtn += "Seleccione una disciplina";
 		}
 		if($(".errMarca").attr("src") !== ok){
-			msjRadioBtn += ", la marca es incorrecta y/o vacio";
+			msjRadioBtn += ", la marca es incorrecta y/o vacia";
 		}
 		alert(msjRadioBtn);
+	}
+}
+function botonRegistrarAtleta(){
+	var ok= "img/ok.jpg"; // Declaro variable para checkear que los campos esten bien
+	
+	if($("#errnomAtl").attr("src") == ok && $("#errapAtl").attr("src") == ok && $('input[type=checkbox]:checked').length > 0){
+		
+		$('input[name="Atletismo_1[]"]:checked').each(function() {
+			atletismo1.push($(this).val());
+		});
+		$('input[name="Atletismo_2[]"]:checked').each(function() {
+			atletismo2.push($(this).val());
+		});
+		$('input[name="Natacion[]"]:checked').each(function() {
+			natacion.push($(this).val());
+		});
+
+		ultimoAtl = postulantes.length+1;
+
+		var post= // Creo Atleta con los datos ya validados
+		{ 
+			"nombre": nomAtl,
+			"apellido": apAtl,
+			"pais": paisAtl,
+			"edad": edadAtl,
+			"numeroAtl": ultimoAtl,
+			"atletismo1": atletismo1,
+			"atletismo2": atletismo2,
+			"natacion": natacion
+		}
+
+		postulantes.push(post); // Lo agrego array*/
+		$("#atl2").append("<option value="+ultimoAtl+">"+"Nombre: "+nomAtl+" "+apAtl+"</option>");
+		alert("Candidato agregado con exito. Su N° es "+ ultimoAtl);
+		
+		$("#regAtlForm").trigger("reset"); // Limpio todos los campos
+		// Reinicio todas las imagenes de error
+		$("#errTxtNombre").html('');
+		$("#errTxtApellido").html('');
+		$("#errTxtPais").html('');
+		$("#errTxtEdad").html('');
+		$("#txtNombre").focus(); // Focus al primer campo del formulario
+	}
+	else {
+		var mensaje = "";
+		if($('input[type=checkbox]:checked').length === 0){
+			mensaje = "Debes elejir al menos una disciplinas";
+		}
+		alert("Error en los campos de registro de Atleta.\n"+mensaje);
 	}
 }
 function botonMostrarAtl(){
 
 	var dis = $("#disc").val();
 	var ok= false;
+	var postulanteDis="";
 	if(dis !== "Seleccione una Disciplina"){	
 		for (var i = 0; postulantes.length >i; i++) {
-			var postulanteDis = postulantes[i].atletismo1;
-			if (postulanteDis == dis) {
-				ok= true;
-				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+			//recorro atletismo1
+			if (postulantes[i].atletismo1.length >0 ) {
+				postulanteDis = postulantes[i].atletismo1;
+				for (var j = 0; postulanteDis.length>j; j++) {
+					if (postulanteDis == dis) {
+						ok= true;
+						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+					}
+				}
 			}
-			var postulanteDis = postulantes[i].atletismo2;
-			if (postulanteDis.atletismo2 == dis) {
-				ok= true;
-				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+			if (postulantes[i].atletismo2.length >0 ) {
+				postulanteDis = postulantes[i].atletismo2;
+				for (var i = j; postulanteDis.length>j; j++) {
+					if (postulanteDis.atletismo2 == dis) {
+						ok= true;
+						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+					}
+				}
 			}
-			var postulanteDis = postulantes[i].natacion;
-			if (postulanteDis.natacion == dis) {
-				ok= true;
-				$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+			if (postulantes[i].natacion.length >0 ) {
+				postulanteDis = postulantes[i].natacion;
+				for (var i = 0; postulanteDis.length>i; i++) {
+					if (postulanteDis.natacion == dis) {
+						ok= true;
+						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+					}
+				}	
 			}
 		}
 		if (ok) {
 			$("#atlDiv").fadeIn();
+			
+		}
+	}
+}
+function botonRegistrarMarcaAtleta(){
+	var atl = $("#atl").val();
+	var dis =$("#disc").val();
+	var marcaNueva = $("#marca").val();
+	if (atl !== "Seleccione un Atleta") {
+		for (var i = 0; lstMarcasAtletismoI.length >i; i=i+2) {
+			if (lstMarcasAtletismoI[i] == dis) {
+				if (lstMarcasAtletismoI[i+1] > marcaNueva) {
+					//terminar
+				}
+			}
 		}
 	}
 }
@@ -483,26 +508,35 @@ function botonConsultasDis(){
 // 		['Biotecnología', 87],
 // 		['Telecomunicaciones', 58],
 // 		]);
-// 	//Establecemos parámetros de configuración como el título del gráfico y su tamaño
-// 	var options = {'title':'Distribución de graduados de la FI en 2015',
-// 	'width':800, 'height':500};
-// 	//Creamos el gráfico de torta y lo dibujamos en el div creado
-// 	var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+ 	//Establecemos parámetros de configuración como el título del gráfico y su tamaño
+	//var options = {'title':'Distribución de graduados de la FI en 2015',
+ 	//'width':800, 'height':500};
+	//Creamos el gráfico de torta y lo dibujamos en el div creado
+	//var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 // 	chart.draw(data, options);
 // }
 function drawChart() {
-
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
+          ['Paises', 'Clasificados'],
+          ['Uruguay',     11],
+          ['Brasil',      2],
+          ['Bolivia',  2],
+          ['Venezuela', 2],
+          ['Argentina',    7],
+          ['Inglaterra',    7],
+          ['Jamaica',    7],
+          ['Japon',    7],
+          ['Chile',    7],
+          ['Colombia',    7],
+          ['Cuba',    7],
+          ['Dinamarca',    7],
+          ['Ecuador',    7],
+          ['España',    7],
+          ['Grecia',    7]
         ]);
 
         var options = {
-          title: 'My Daily Activities'
+          title:'Paises clasificados','width':400, 'height':450
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
