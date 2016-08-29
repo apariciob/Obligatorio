@@ -1,5 +1,3 @@
-//no consegui resetear formulario muestra doble las dis!!! fun registro marca
-//en funcion botonMostrarAtl no consegui acceder a los postulantes dependiendo la dis, corregir
 var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra'];
 var postulantes = [];
 var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
@@ -16,65 +14,59 @@ var lstMarcasNatacion = ["200mLibres", "0", "100mMariposa", "0", "100mEspalda", 
 $(document).ready(inicio);
 
 function inicio(){
+
 	$("#ventanaReg").hide();
 	$("#ventanaIngresoMarca").hide();
 	$("#ventanaMarcaAtl").hide();
 	$("#ventanaTarjAtl").hide();
 	$("#ventanaConsultaDis").hide();
 	$("#ventanaAtlClasi").hide();
-	$("#atletismo").hide();
-	$("#atletismo2").hide();
-	$("#natacion").hide();
-	$("#marcaCat").hide();
-	$("#atlDiv").hide();
+
 	//llenando el select
 	var count = 0;
 	$(arrayPaises).each(function(){
 		$('#pais').append(new Option(arrayPaises[count]));
 		count++;
 	});
-	/*for (var i = 0; postulantes.length > i; i++) {
-		if () {}
-		$("#atl").html("<option></option>")
-	}*/
+	
 	//***********Cambiar Pestañas***********//
+
 	//Click Pestaña registrar atleta
 	$("#btnRegAtl").click(registroAtleta);
-
-	//Click btn registrar atleta
-	$("#btnRegistrar").click(botonRegistrarAtleta);
-	
-	//click ingresar marca pestaña
+	//click pestaña ingresar marca
 	$("#btnIngresoMarca").click(ingresoMarca);
-
-	//Click al select categorias de la pestaña ingresar Marca
-
-	$("#selecCat").click(mostrarMarca);
-
-	//click boton ingresar Marca
-
-	$("#btnIngresarMarca").click(ingresarMarca);
-	
 	//click marca atleta
-
 	$("#btnRegMarca").click(registroMarca);
-
-	//click boton cargar atletas
-
-	$("#btnMostrarAtl").click(botonMostrarAtl);
-
 	//click tarjeta atleta
-
 	$("#btnTarAtl").click(tarjetaAtleta);
-
-	//click boton generar tarjeta atleta
-
-	$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
 	//click consultas disciplinas
 	$("#btnConsultasDis").click(consultasDisciplinas);
-	
 	//click atletas clasificados
 	$("#btnAtlClasi").click(atletasClasificados);
+	
+	
+	//Click boton registrar atleta
+	$("#btnRegistrar").click(botonRegistrarAtleta);
+
+	//click boton ingresar Marca
+	$("#btnIngresarMarca").click(ingresarMarca);
+
+	//Click al select categorias de la pestaña ingresar Marca
+	$("#selecCat").click(mostrarMarca);
+
+	//click boton cargar atletas
+	$("#btnMostrarAtl").click(botonMostrarAtl);
+
+	//click boton generar tarjeta atleta
+	$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
+
+	//click al select de consultas disciplinas
+	$("#cat").click(mostrarDisciplinas);
+
+	//click boton mostrar consultas
+	$("#btnMostrarAtlPorDis").click(botonConsultasDis);
+	
+
 	//***********validaciones***********//
 	
 	//Validacion de atleta
@@ -164,22 +156,33 @@ function registroAtleta(){
 }
 function ingresoMarca(){
 	mostrarmenu("#ventanaIngresoMarca",this,"#ingresoMarcaForm","#selecCat");
-	
+	$("#atletismo").hide();
+	$("#atletismo2").hide();
+	$("#natacion").hide();
+	$("#marcaCat").hide();
 }
 function registroMarca(){
 	mostrarmenu("#ventanaMarcaAtl",this,"#regMarcaForm","#atl");
+	$("#atlDiv").hide();
 }
 function tarjetaAtleta(){
 	mostrarmenu("#ventanaTarjAtl",this,"#tarjAtlForm","#atl2");
-	
+	$("#tarjeta").html('');
 }
 function consultasDisciplinas(){
 	mostrarmenu("#ventanaConsultaDis",this,"#consulDisForm","#cat");
-	
+	$("#atletismoUno").hide();
+	$("#atletismoDos").hide();
+	$("#natacion1").hide();
 }
 function atletasClasificados(){
 	mostrarmenu("#ventanaAtlClasi",this,"#atlClasiForm","boton");
-	
+	//Código que permite cargar los paquetes de charts en nuestro proyecto
+	//google.load('visualization', '1.0', {'packages':['corechart']});
+	//Establecemos el gráfico debe dibujarse al cargar google charts API
+	//google.setOnLoadCallback(drawChart);
+	 google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 }
 function mostrarmenu(mostrar,menu,formulario,campo){
 	
@@ -208,7 +211,6 @@ function mostrarmenu(mostrar,menu,formulario,campo){
 	$(formulario).trigger("reset");
 	$(campo).focus();
 }
-
 function mostrarMarca(){
 	var val = $("#selecCat").val();
     switch(val){
@@ -241,7 +243,34 @@ function mostrarMarca(){
         break;
     }
 }
-
+function mostrarDisciplinas(){
+	var val = $("#cat").val();
+    switch(val){
+        case "Seleccione una Categoria": 
+        $("#atletismoUno").hide();
+		$("#atletismoDos").hide();
+		$("#natacion1").hide();
+            break;
+        case "Atletismo I": 
+        $("#atletismoUno").fadeIn(1000);
+		$("#atletismoDos").hide();
+		$("#natacion1").hide();
+		$("#consulDisForm").trigger("reset");
+        break;
+         case "Atletismo II": 
+        $("#atletismoDos").fadeIn(1000);
+		$("#atletismoUno").hide();
+		$("#natacion1").hide();
+		$("#consulDisForm").trigger("reset");
+        break;
+        case "Natación": 
+        $("#natacion1").fadeIn(1000);
+		$("#atletismoDos").hide();
+		$("#atletismoUno").hide();
+		$("#consulDisForm").trigger("reset");
+        break;
+    }
+}
 function botonRegistrarAtleta(){
 	var ok= "img/ok.jpg"; // Declaro variable para checkear que los campos esten bien
 	
@@ -294,7 +323,6 @@ function botonRegistrarAtleta(){
 		alert("Error en los campos de registro de Atleta.\n"+mensaje);
 		}
 }
-
 function ingresarMarca(){
 	var ok= "img/ok.jpg";
 	var categorias, disciplinas, marca;
@@ -437,7 +465,47 @@ function botonGenerarTarjeta(){
 				text: mostrar
 			};
 			$("#tarjeta").empty().qrcode(options);
+			$("#tarjeta").css("text-align","center");
 		}
 	}
 }
+function botonConsultasDis(){
+}
+// function drawChart() {
+// 	var data = new google.visualization.DataTable();
+// 	//Agregamos las columnas (sólo para gráficos de torta)
+// 	data.addColumn('string', 'Carrera');
+// 	data.addColumn('number', 'Estudiantes graduados');
+// 	//Agregamos las filas (datos) que corresponden a cada columna
+// 	data.addRows([
+// 		['Electrónica', 300],
+// 		['Sistemas', 185],
+// 		['Biotecnología', 87],
+// 		['Telecomunicaciones', 58],
+// 		]);
+// 	//Establecemos parámetros de configuración como el título del gráfico y su tamaño
+// 	var options = {'title':'Distribución de graduados de la FI en 2015',
+// 	'width':800, 'height':500};
+// 	//Creamos el gráfico de torta y lo dibujamos en el div creado
+// 	var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+// 	chart.draw(data, options);
+// }
+function drawChart() {
 
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+}

@@ -10,6 +10,7 @@
 		<meta name ="Copyright" content ="Derechos reservados">
 		<link rel="Stylesheet" type="text/css" href="css/estilos.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript" src="js/jquery-2.0.3.js"></script>
 		<script type="text/javascript" src="js/jquery-qrcode-0.14.0.js"></script>
 		<script type="text/javascript" src="js/jquery-qrcode-0.14.0.min.js"></script>
@@ -84,11 +85,7 @@
 						<label id="lblApellido" for="apellido">Apellido:</label>
 						<input id="txtApellido" type="text">
 						<span id="errTxtApellido" class="mensaje"></span>
-					</div>
-					<!-- <div>
-						<label for="numerocompetidor">N&uacute;mero de competidor: </label>
-						<input id="numerocompetidor" type="text">
-					</div> -->				
+					</div>				
 					<div>
 						<label for="pais">Pa&iacute;s: </label>
 						<select id="pais">
@@ -142,7 +139,6 @@
 				</div>
 				<form id="ingresoMarcaForm">
 					<div id="atletismo">
-					
 						<label for="Atletismo1">Atletismo I: </label>
 						<div class ="disciplinas">
 							<div>
@@ -160,7 +156,6 @@
 						
 					</div>
 					<div id="atletismo2">
-					
 						<label for="AtletismoII">Atletismo II: </label>
 						<div class="disciplinas">
 								<input type="radio" class="radioIngresoMarca" name="atletismo2" value="saltoLargo"><span>Salto largo</span><br>
@@ -231,23 +226,68 @@
 					
 				</form>
 			</div>
+			<!--ventana consulta disciplinas-->
 			<div calss="ventana" id="ventanaConsultaDis" class="panel">
 				<h1>Consulta de disciplina</h1>
+				<div>
+					<label for="categoria">Categoria: </label>
+					<select id="cat">
+						<option>Seleccione una Categoria</option>
+						<option>Atletismo I</option>
+						<option>Atletismo II</option>
+						<option>Nataci&oacute;n</option>
+					</select>
+				</div>
 				<form id="consulDisForm">
-					<div>
-						<label for="categoria">Categoria: </label>
-						<select id="cat">
-							<option>Seleccione una Categoria</option>
-							<option>Atletismo I</option>
-							<option>Atletismo II</option>
-							<option>Nataci&oacute;n</option>
-						</select>
+					<div id="atletismoUno">
+						<label for="Atletismo1">Atletismo I: </label>
+						<div class ="disciplinas">
+							<div>
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="100mLlanos"><span>100m llanos</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="200mLlanos"><span>200m llanos</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="400mLlanos"><span>400m llanos</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="800mLlanos"><span>800m llanos</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="110mConVallas"> <span>110m con vallas</span>
+							</div>
+						</div>
+					</div>
+					<div id="atletismoDos">
+						<label for="AtletismoII">Atletismo II: </label>
+						<div class="disciplinas">
+								<input type="radio" class="radioIngresoMarca" name="atletismo2" value="saltoLargo"><span>Salto largo</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo2" value="saltoAlto"><span>Salto alto</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="lanzamientoDeJabalina"><span>Lanzamiento de jabalina</span><br>
+					
+								<input type="radio" class="radioIngresoMarca" name="atletismo1" value="lanzamientoDeBala"><span>Lanzamiento de bala</span>
+						</div>
+					</div>
+					<div id="natacion1">
+						<label for="Natacion">Nataci&oacute;n: </label>
+						<div class="disciplinas">
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="200mLibres"><span>200m libres</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100mMariposa"><span>100m mariposa</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100mEspalda"><span>100m espalda</span><br>
+							<input type="radio" class="radioIngresoMarca" name="natacion" value="100mPecho"><span>100m pecho</span>
+						</div>
+					</div>
+					<div id="mostrarDis">
+						<span class="errTxtMostrarDis" class="mensaje"></span>
+						<div class="divBoton">
+							<input type="button" value="Mostrar Atletas" class="boton" id="btnMostrarAtlPorDis">
+						</div>
 					</div>
 				</form>
 			</div>
 			<div calss="ventana" id="ventanaAtlClasi"class="panel">
 				<h1>Atletas Clasificados</h1>
 				<form id="atlClasiForm">
+				<div id="piechart"></div>
 				<div class="divBoton">
 						<input type="button" value="Mostrar" class="boton" id="btnMostrarGrafica">
 				</div>
