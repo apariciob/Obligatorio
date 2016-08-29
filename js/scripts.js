@@ -3,7 +3,7 @@ var postulantes = [];
 var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
 var atletismo1 = [];
 var atletismo2 = [];
-var natacion = [];
+var natacion =  [];
 //lista de marcas
 var lstMarcasAtletismoI = ["100mLlanos", "0", "200mLlanos", "0", "400mLlanos", "0", "800mLlanos", "0", "110mConVallas", "0"];
 var lstMarcasAtletismoII = ["saltoLargo", "0", "saltoAlto", "0","lanzamientoDeJabalina","0", "lanzamientoDeBala", "0"];
@@ -59,7 +59,7 @@ function inicio(){
 	$("#btnMostrarAtl").click(botonMostrarAtl);
 
 	//click boton generar tarjeta atleta
-	$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
+	//$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
 
 	//click al select de consultas disciplinas
 	$("#cat").click(mostrarDisciplinas);
@@ -141,6 +141,19 @@ function inicio(){
 			$(".errTxtMarca").html('<img class="errMarca" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
 		}
 		$(".errMarca").css("width",20);
+		
+	});
+
+	$("#marcaAtleta").blur(function(){
+		var marcaAux = $("#marcaAtleta").val();
+		$(".errMarcaAtl").remove();
+		if(isNaN(marcaAux)==false && marcaAux !== ""){
+			$(".errTxtMarca").html('<img class="errMarcaAtl" src="img/ok.jpg" />');
+		}
+		else {
+			$(".errTxtMarca").html('<img class="errMarcaAtl" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
+		}
+		$(".errMarcaAtl").css("width",20);
 		
 	});
 
@@ -352,7 +365,7 @@ function ingresarMarca(){
 		//reseteo campos
 		$("#ingresoMarcaForm").trigger("reset");
 		$(".errMarca").remove();		
-	}else{
+	}else{ 
 		var msjRadioBtn = "Error!: ";
 		if($('input[class="radioIngresoMarca"]:checked').length === 0){
 			msjRadioBtn += "Seleccione una disciplina";
@@ -370,15 +383,28 @@ function botonRegistrarAtleta(){
 		
 		$('input[name="Atletismo_1[]"]:checked').each(function() {
 			atletismo1.push($(this).val());
+			atletismo1.push(0);
 		});
 		$('input[name="Atletismo_2[]"]:checked').each(function() {
 			atletismo2.push($(this).val());
+			atletismo2.push(0);
 		});
 		$('input[name="Natacion[]"]:checked').each(function() {
 			natacion.push($(this).val());
+			natacion.push(0);
 		});
 
 		ultimoAtl = postulantes.length+1;
+
+		var disciplinas =
+		{
+			"atletismo1": atletismo1,
+			"marcaAtletismo1": [0,0,0,0,0],
+			"atletismo2": atletismo2,
+			"marcaAtletismo2": [0,0,0,0],
+			"natacion": natacion,
+			"marcaAtletismo1": [0,0,0,0]
+		}
 
 		var post= // Creo Atleta con los datos ya validados
 		{ 
@@ -387,9 +413,7 @@ function botonRegistrarAtleta(){
 			"pais": paisAtl,
 			"edad": edadAtl,
 			"numeroAtl": ultimoAtl,
-			"atletismo1": atletismo1,
-			"atletismo2": atletismo2,
-			"natacion": natacion
+			"disciplinas": disciplinas
 		}
 
 		postulantes.push(post); // Lo agrego array*/
@@ -412,38 +436,73 @@ function botonRegistrarAtleta(){
 		alert("Error en los campos de registro de Atleta.\n"+mensaje);
 	}
 }
-function botonMostrarAtl(){
+//modificar los array de las categorias y sus disciplinas
+function botonRegistrarMarcaAtleta(){
+	var numAtl = $("#atl").val();
+	var dis =$("#disc").val();
+	var clacifico = false;
+	var marcaNueva = $("#marcaAtleta").val();
+	if (numAtl !== "Seleccione un Atleta") {
+		for (var i = 0; lstMarcasAtletismoI.length >i; i=i+2) {
+			if (lstMarcasAtletismoI[i] == dis) {
+				var marcaOlimpica = lstMarcasAtletismoI[i+1];
+				var disAtldeAtletismo1 = [];
+				disAtldeAtletismo1 = postulantes[numAtl-1].disciplinas.atletismo1;
+				for (var i = 0; disAtldeAtletismo1.length > i; i++) {
+					if(disAtldeAtletismo1[i] = dis){
 
+						if(disAtldeAtletismo1[i+1] == 0){
+							postulantes[numAtl-1].disciplinas.atletismo1[i+1] = marcaNueva;
+							if(marcaNueva <= marcaOlimpica){
+								alert("haz clacificado a las olimpiadas en esta disciplina");
+							}
+						}else{
+							if(disAtldeAtletismo1[i+1] >= marcaNueva){
+								postulantes[numAtl-1].disciplinas.atletismo1[i+1] = marcaNueva;
+								if(marcaNueva <= marcaOlimpica){
+									alert("haz clacificado a las olimpiadas en esta disciplina");
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+//modificar los array de las categorias y sus disciplinas
+function botonMostrarAtl(){
+	$('#atl').empty().append("<option>Seleccione un Atleta</option>");
 	var dis = $("#disc").val();
 	var ok= false;
 	var postulanteDis="";
 	if(dis !== "Seleccione una Disciplina"){	
 		for (var i = 0; postulantes.length >i; i++) {
 			//recorro atletismo1
-			if (postulantes[i].atletismo1.length >0 ) {
-				postulanteDis = postulantes[i].atletismo1;
-				for (var j = 0; postulanteDis.length>j; j++) {
-					if (postulanteDis == dis) {
+			if (postulantes[i].disciplinas.atletismo1.length >0 ) {
+				postulanteDis = postulantes[i].disciplinas.atletismo1;
+				for (var j = 0; postulanteDis.length>j; j=j+2) {
+					if (postulanteDis[j] == dis) {
 						ok= true;
-						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+						$("#atl").append("<option value="+postulantes[i].numeroAtl+">"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 					}
 				}
 			}
-			if (postulantes[i].atletismo2.length >0 ) {
-				postulanteDis = postulantes[i].atletismo2;
-				for (var i = j; postulanteDis.length>j; j++) {
-					if (postulanteDis.atletismo2 == dis) {
+			if (postulantes[i].disciplinas.atletismo2.length >0 ) {
+				postulanteDis = postulantes[i].disciplinas.atletismo2;
+				for (var j=0; postulanteDis.length>j; j=j+2) {
+					if (postulanteDis[j] == dis) {
 						ok= true;
-						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+						$("#atl").append("<option value="+postulantes[i].numeroAtl+">"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 					}
 				}
 			}
-			if (postulantes[i].natacion.length >0 ) {
-				postulanteDis = postulantes[i].natacion;
-				for (var i = 0; postulanteDis.length>i; i++) {
-					if (postulanteDis.natacion == dis) {
+			if (postulantes[i].disciplinas.natacion.length >0 ) {
+				postulanteDis = postulantes[i].disciplinas.natacion;
+				for (var j = 0; postulanteDis.length>j; j=j+2) {
+					if (postulanteDis[j] == dis) {
 						ok= true;
-						$("#atl").append("<option>"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
+						$("#atl").append("<option value="+postulantes[i].numeroAtl+">"+postulantes[i].nombre+" "+postulantes[i].apellido+"</option>");
 					}
 				}	
 			}
@@ -453,49 +512,41 @@ function botonMostrarAtl(){
 			
 		}
 	}
-}
-function botonRegistrarMarcaAtleta(){
-	var atl = $("#atl").val();
-	var dis =$("#disc").val();
-	var marcaNueva = $("#marca").val();
-	if (atl !== "Seleccione un Atleta") {
-		for (var i = 0; lstMarcasAtletismoI.length >i; i=i+2) {
-			if (lstMarcasAtletismoI[i] == dis) {
-				if (lstMarcasAtletismoI[i+1] > marcaNueva) {
-					//terminar
-				}
-			}
-		}
+	else{
+		alert("Debes seleccionar una Disciplina");
+		$('#regMarcaForm').trigger('reset');
+		$('#atlDiv').hide();
 	}
 }
-function botonGenerarTarjeta(){
-	var numeroAtleta = $("#atl2").val();
-	var mostrar="";
-	for (var i = 0; postulantes.length >i; i++) {
-		if (numeroAtleta == postulantes[i].numeroAtl) {
-			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
-			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
-			if (postulantes[i].atletismo1.length>0) {						
-				mostrar+= "Atletismo I: "+ postulantes[i].atletismo1.join(' | ');
-				mostrar+= "\n";
-			}
+//modificar los array de las categorias y sus disciplinas
+// function botonGenerarTarjeta(){
+// 	var numeroAtleta = $("#atl2").val();
+// 	var mostrar="";
+// 	for (var i = 0; postulantes.length >i; i++) {
+// 		if (numeroAtleta == postulantes[i].numeroAtl) {
+// 			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
+// 			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
+// 			if (postulantes[i].atletismo1.length>0) {						
+// 				mostrar+= "Atletismo I: "+ postulantes[i].atletismo1.join(' | ');
+// 				mostrar+= "\n";
+// 			}
 
-			if (postulantes[i].atletismo2.length>0) {						
-				mostrar+= "Atletismo II: "+ postulantes[i].atletismo2.join(' | ');
-				mostrar+= "\n";
-			}
-			if (postulantes[i].natacion.length>0) {						
-				mostrar+= "Natación: "+ postulantes[i].natacion.join(' | ');
-				mostrar+= "\n";
-			}
-			var options = {
-				text: mostrar
-			};
-			$("#tarjeta").empty().qrcode(options);
-			$("#tarjeta").css("text-align","center");
-		}
-	}
-}
+// 			if (postulantes[i].atletismo2.length>0) {						
+// 				mostrar+= "Atletismo II: "+ postulantes[i].atletismo2.join(' | ');
+// 				mostrar+= "\n";
+// 			}
+// 			if (postulantes[i].natacion.length>0) {						
+// 				mostrar+= "Natación: "+ postulantes[i].natacion.join(' | ');
+// 				mostrar+= "\n";
+// 			}
+// 			var options = {
+// 				text: mostrar
+// 			};
+// 			$("#tarjeta").empty().qrcode(options);
+// 			$("#tarjeta").css("text-align","center");
+// 		}
+// 	}
+// }
 function botonConsultasDis(){
 	
 	$("#tablaAtletas").html("<table id='tabla'> <tr><th>Nombre:</th> <th>Apellido:</th> <th>Edad:</th></tr> </table>");
