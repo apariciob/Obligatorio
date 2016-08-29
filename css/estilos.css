@@ -96,9 +96,8 @@ footer {
 	vertical-align: top;
 }
 .disciplinas input{
-	display:block;
-}
-		
+	.display:block;
+}		
 .boton {
 	padding: 5px 15px;
 	width: auto;

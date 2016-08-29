@@ -56,12 +56,20 @@ function inicio(){
 	$("#btnIngresarMarca").click(ingresarMarca);
 	
 	//click marca atleta
+
 	$("#btnRegMarca").click(registroMarca);
+
 	//click boton cargar atletas
+
 	$("#btnMostrarAtl").click(botonMostrarAtl);
+
 	//click tarjeta atleta
+
 	$("#btnTarAtl").click(tarjetaAtleta);
-	
+
+	//click boton generar tarjeta atleta
+
+	$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
 	//click consultas disciplinas
 	$("#btnConsultasDis").click(consultasDisciplinas);
 	
@@ -266,7 +274,7 @@ function botonRegistrarAtleta(){
 		}
 
 		postulantes.push(post); // Lo agrego array*/
-		
+		$("#atl2").append("<option value="+ultimoAtl+">"+"Nombre: "+nomAtl+" "+apAtl+"</option>");
 		alert("Candidato agregado con exito. Su N° es "+ ultimoAtl);
 		console.log(postulantes);
 		
@@ -274,6 +282,7 @@ function botonRegistrarAtleta(){
 		// Reinicio todas las imagenes de error
 		$("#errTxtNombre").html('');
 		$("#errTxtApellido").html('');
+		$("#errTxtPais").html('');
 		$("#errTxtEdad").html('');
 		$("#txtNombre").focus(); // Focus al primer campo del formulario
 	}
@@ -282,7 +291,7 @@ function botonRegistrarAtleta(){
 		if($('input[type=checkbox]:checked').length === 0){
 			mensaje = "Debes elejir al menos una disciplinas";
 		}
-		alert("Error en los campo de registro de Candidato.\n"+mensaje);
+		alert("Error en los campos de registro de Atleta.\n"+mensaje);
 		}
 }
 
@@ -295,7 +304,6 @@ function ingresarMarca(){
 	marca = $('#marca').val();
 
 	if( $('input[class="radioIngresoMarca"]:checked').length === 1 &&  $(".errMarca").attr("src") == ok){
-		console.log(categorias);
 		switch(categorias){
 			case "Atletismo I":
 				var agregarALSelect = true;
@@ -402,6 +410,33 @@ function botonMostrarAtl(){
 		}
 		if (ok) {
 			$("#atlDiv").fadeIn();
+		}
+	}
+}
+function botonGenerarTarjeta(){
+	var numeroAtleta = $("#atl2").val();
+	var mostrar="";
+	for (var i = 0; postulantes.length >i; i++) {
+		if (numeroAtleta == postulantes[i].numeroAtl) {
+			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
+			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
+			if (postulantes[i].atletismo1.length>0) {						
+				mostrar+= "Atletismo I: "+ postulantes[i].atletismo1.join(' | ');
+				mostrar+= "\n";
+			}
+
+			if (postulantes[i].atletismo2.length>0) {						
+				mostrar+= "Atletismo II: "+ postulantes[i].atletismo2.join(' | ');
+				mostrar+= "\n";
+			}
+			if (postulantes[i].natacion.length>0) {						
+				mostrar+= "Natación: "+ postulantes[i].natacion.join(' | ');
+				mostrar+= "\n";
+			}
+			var options = {
+				text: mostrar
+			};
+			$("#tarjeta").empty().qrcode(options);
 		}
 	}
 }
