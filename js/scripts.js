@@ -173,6 +173,8 @@ function consultasDisciplinas(){
 	$("#atletismoUno").hide();
 	$("#atletismoDos").hide();
 	$("#natacion1").hide();
+
+
 }
 function atletasClasificados(){
 	mostrarmenu("#ventanaAtlClasi",this,"#atlClasiForm","boton");
@@ -495,6 +497,8 @@ function botonGenerarTarjeta(){
 	}
 }
 function botonConsultasDis(){
+	
+	$("#tablaAtletas").html("<table id='tabla'> <tr><th>Nombre:</th> <th>Apellido:</th> <th>Edad:</th></tr> </table>");
 }
 // function drawChart() {
 // 	var data = new google.visualization.DataTable();
