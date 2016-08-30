@@ -25,7 +25,8 @@ function inicio(){
 		$('#pais').append(new Option(arrayPaises[count]));
 		count++;
 	});
-	
+	//click header
+	$("#header").click(header);
 	//***********Cambiar Pestañas***********//
 
 	//Click Pestaña registrar atleta
@@ -157,6 +158,30 @@ function inicio(){
 	});
 
 	//Fin de Validacion de ingreso de marca
+}
+function header(){
+
+	$("#ventanaReg").hide();
+	$("#btnRegAtl").css("color","white");
+	
+	$("#ventanaIngresoMarca").hide();
+	$("#btnIngresoMarca").css("color","white");
+	
+	$("#ventanaMarcaAtl").hide();
+	$("#btnRegMarca").css("color","white");
+	
+	$("#ventanaTarjAtl").hide();
+	$("#btnTarAtl").css("color","white");
+	
+	$("#ventanaConsultaDis").hide();
+	$("#btnConsultasDis").css("color","white");
+	
+	$("#ventanaAtlClasi").hide();
+	$("#btnAtlClasi").css("color","white");
+	$("#carousel-example-generic").hide();
+	
+	$("#carousel-example-generic").fadeIn(1000);
+	
 }
 function registroAtleta(){
 	mostrarmenu("#ventanaReg",this,"#regAtlForm","#txtNombre");
@@ -575,21 +600,24 @@ function botonConsultasDis(){
 function drawChart() {
 	//filtro postulantes por pais y voy contando cuantas clasificaciones hay y sumo en lstClasificadosPaises
 		var lstClasificadosPaises = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+		var entro = false;
 		for (var i = 0; postulantes.length >i; i++) {//recorro los postulantes
 			var post = postulantes[i];
-
+			console.log("postulantes ok")
 			for (var j = 0; post.disciplinas.atletismo1.length> j; j=j+2) {//recorro las disciplinas del atleta en atletismo1
-				
+				console.log("disciplinas ok")
 				var dis = post.disciplinas.atletismo1;//capturo la disciplina
 				
 				for (var k = 0; lstMarcasAtletismoI.length > k; k=k+2) {//recorro las marcas oficiales
+					console.log("marcas olimpicas ok")
 					if (lstMarcasAtletismoI[k] == dis[j]) {
 						if (lstMarcasAtletismoI[k+1] >= dis[j+1]) { //si la marca del post es menor que la marca oficial
 							
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
+								console.log("paises ok")
 								if (post.pais == arrayPaises[h]) {
 									lstClasificadosPaises[h]++;
+									entro =true;
 								}
 							}
 						}
@@ -607,6 +635,7 @@ function drawChart() {
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
 								if (post.pais == arrayPaises[h]) {
 									lstClasificadosPaises[h]++;
+									entro =true;
 								}
 							}
 						}
@@ -624,6 +653,7 @@ function drawChart() {
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
 								if (post.pais == arrayPaises[h]) {
 									lstClasificadosPaises[h]++;
+									entro =true;
 								}
 							}
 						}
@@ -631,30 +661,34 @@ function drawChart() {
 				}
 			}
 		}
-        var data = google.visualization.arrayToDataTable([
-          ['Paises', 'Clasificados'],
-          ['Uruguay',     lstClasificadosPaises[0]],
-          ['Brasil',      lstClasificadosPaises[1]],
-          ['Bolivia',  lstClasificadosPaises[2]],
-          ['Venezuela',lstClasificadosPaises[3]],
-          ['Argentina',   lstClasificadosPaises[4]],
-          ['Inglaterra',   lstClasificadosPaises[5]],
-          ['Jamaica',   lstClasificadosPaises[6]],
-          ['Japon',   lstClasificadosPaises[7]],
-          ['Chile',   lstClasificadosPaises[8]],
-          ['Colombia',   lstClasificadosPaises[9]],
-          ['Cuba',   lstClasificadosPaises[10]],
-          ['Dinamarca',   lstClasificadosPaises[11]],
-          ['Ecuador',   lstClasificadosPaises[12]],
-          ['España',   lstClasificadosPaises[13]],
-          ['Grecia',   lstClasificadosPaises[14]]
-        ]);
+		if (entro) {
+        	var data = google.visualization.arrayToDataTable([
+         	 ['Paises', 'Clasificados'],
+         	 ['Uruguay',     lstClasificadosPaises[0]],
+         	 ['Brasil',      lstClasificadosPaises[1]],
+         	 ['Bolivia',  lstClasificadosPaises[2]],
+        	  ['Venezuela',lstClasificadosPaises[3]],
+         	 ['Argentina',   lstClasificadosPaises[4]],
+         	 ['Inglaterra',   lstClasificadosPaises[5]],
+         	 ['Jamaica',   lstClasificadosPaises[6]],
+         	 ['Japon',   lstClasificadosPaises[7]],
+         	 ['Chile',   lstClasificadosPaises[8]],
+         	 ['Colombia',   lstClasificadosPaises[9]],
+         	 ['Cuba',   lstClasificadosPaises[10]],
+         	 ['Dinamarca',   lstClasificadosPaises[11]],
+         	 ['Ecuador',   lstClasificadosPaises[12]],
+          	['España',   lstClasificadosPaises[13]],
+         	 ['Grecia',   lstClasificadosPaises[14]]
+       	 ]);
 
-        var options = {
-          title:'Paises clasificados','width':400, 'height':450
-        };
+        	var options = {
+          	title:'Paises clasificados','width':400, 'height':450
+        	};
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-        chart.draw(data, options);
+        	chart.draw(data, options);
+        }else{
+        	alert("No hay paises clasificados");
+        }
 }
