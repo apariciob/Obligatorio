@@ -200,6 +200,7 @@ function ingresoMarca(){
 function registroMarca(){
 	mostrarmenu("#ventanaMarcaAtl",this,"#regMarcaForm","#atl");
 	$("#atlDiv").hide();
+
 }
 function tarjetaAtleta(){
 	mostrarmenu("#ventanaTarjAtl",this,"#tarjAtlForm","#atl2");
@@ -220,7 +221,8 @@ function atletasClasificados(){
 	//Establecemos el gráfico debe dibujarse al cargar google charts API
 	//google.setOnLoadCallback(drawChart);
 	 google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+	 var entro= false;
+      google.charts.setOnLoadCallback(drawChart(entro));
 }
 function mostrarmenu(mostrar,menu,formulario,campo){
 	
@@ -469,6 +471,7 @@ function botonRegistrarMarcaAtleta(){
 	var numAtl = $("#atl").val();
 	var dis =$("#disc").val();
 	var clacifico = false;
+	var entro = false;
 	var marcaNueva = $("#marcaAtleta").val();
 	if (numAtl !== "Seleccione un Atleta") {
 		for (var i = 0; lstMarcasAtletismoI.length >i; i=i+2) {
@@ -476,20 +479,22 @@ function botonRegistrarMarcaAtleta(){
 				var marcaOlimpica = lstMarcasAtletismoI[i+1];
 				var disAtldeAtletismo1 = [];
 				disAtldeAtletismo1 = postulantes[numAtl-1].disciplinas.atletismo1;
-				for (var i = 0; disAtldeAtletismo1.length > i; i++) {
-					if(disAtldeAtletismo1[i] = dis){
+				for (var j = 0; disAtldeAtletismo1.length > j && !entro; j++) {
+					if(disAtldeAtletismo1[j] = dis){
 
-						if(disAtldeAtletismo1[i+1] == 0){
-							postulantes[numAtl-1].disciplinas.atletismo1[i+1] = marcaNueva;
+						if(disAtldeAtletismo1[j+1] == 0){
+							postulantes[numAtl-1].disciplinas.atletismo1[j+1] = marcaNueva;
 							if(marcaNueva <= marcaOlimpica){
+								entro = true;
 								alert("haz clacificado a las olimpiadas en esta disciplina");
 							}
 							$("#regMarcaForm").trigger("reset");
 							$("#atlDiv").hide();
 						}else{
-							if(disAtldeAtletismo1[i+1] >= marcaNueva){
-								postulantes[numAtl-1].disciplinas.atletismo1[i+1] = marcaNueva;
+							if(disAtldeAtletismo1[j+1] >= marcaNueva){
+								postulantes[numAtl-1].disciplinas.atletismo1[j+1] = marcaNueva;
 								if(marcaNueva <= marcaOlimpica){
+									entro = true;
 									alert("haz clacificado a las olimpiadas en esta disciplina");
 								}
 							}
@@ -504,6 +509,7 @@ function botonRegistrarMarcaAtleta(){
 }
 
 function botonMostrarAtl(){
+	$("#errMarcaAtl").html('');
 	$('#atl').empty().append("<option>Seleccione un Atleta</option>");
 	var dis = $("#disc").val();
 	var ok= false;
@@ -562,6 +568,7 @@ function botonGenerarTarjeta(){
 		if (numeroAtleta == postulantes[i].numeroAtl) { //si tiene el mismo num entro
 			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
 			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
+			mostrar+= "Numero: "+ postulantes[i].numeroAtl+"\n";
 			if (postulantes[i].disciplinas.atletismo1.length>0) {		
 				for (var j = 0; postulantes[i].disciplinas.atletismo1.length >j; j=j+2) {//recorro lista disciplinas atletismo1
 					disAtl1 += postulantes[i].disciplinas.atletismo1[j]+" | ";
@@ -597,24 +604,23 @@ function botonConsultasDis(){
 	
 	$("#tablaAtletas").html("<table id='tabla'> <tr><th>Nombre:</th> <th>Apellido:</th> <th>Edad:</th></tr> </table>");
 }
-function drawChart() {
+function drawChart(entro) {
 	//filtro postulantes por pais y voy contando cuantas clasificaciones hay y sumo en lstClasificadosPaises
 		var lstClasificadosPaises = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		var entro = false;
 		for (var i = 0; postulantes.length >i; i++) {//recorro los postulantes
 			var post = postulantes[i];
-			console.log("postulantes ok")
+			
 			for (var j = 0; post.disciplinas.atletismo1.length> j; j=j+2) {//recorro las disciplinas del atleta en atletismo1
-				console.log("disciplinas ok")
+				
 				var dis = post.disciplinas.atletismo1;//capturo la disciplina
 				
 				for (var k = 0; lstMarcasAtletismoI.length > k; k=k+2) {//recorro las marcas oficiales
-					console.log("marcas olimpicas ok")
+					
 					if (lstMarcasAtletismoI[k] == dis[j]) {
 						if (lstMarcasAtletismoI[k+1] >= dis[j+1]) { //si la marca del post es menor que la marca oficial
 							
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
-								console.log("paises ok")
+								
 								if (post.pais == arrayPaises[h]) {
 									lstClasificadosPaises[h]++;
 									entro =true;
