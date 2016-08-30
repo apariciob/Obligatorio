@@ -1,10 +1,8 @@
 var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra','Jamaica','Japon','Chile','Colombia','Cuba','Dinamarca','Ecuador','España','Grecia'];
 //esta guardando doble los atletas en reg de marca
 var postulantes = [];
-var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
-var atletismo1 = [];
-var atletismo2 = [];
-var natacion =  [];
+var nomAtl, apAtl, paisAtl, edadAtl = 0, ultimoAtl;
+
 //lista de marcas
 var lstMarcasAtletismoI = ["100mLlanos", "0", "200mLlanos", "0", "400mLlanos", "0", "800mLlanos", "0", "110mConVallas", "0"];
 var lstMarcasAtletismoII = ["saltoLargo", "0", "saltoAlto", "0","lanzamientoDeJabalina","0", "lanzamientoDeBala", "0"];
@@ -117,11 +115,11 @@ function inicio(){
 	$("#edad").blur(function(){
 		edadAtl = $("#edad").val();
 		$("#errEdadAtl").remove();
-		if(isNaN(edadAtl)==false && edadAtl !== ""){
+		if(isNaN(edadAtl)==false && edadAtl !== "" && edadAtl >= 17 && 50 >= edadAtl){
 			$("#errTxtEdad").html('<img id="errEdadAtl" src="img/ok.jpg" />');
 		}
 		else {
-			$("#errTxtEdad").html('<img id="errEdadAtl" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
+			$("#errTxtEdad").html('<img id="errEdadAtl" src="img/error.jpg" data-toggle="tooltip" title="La edad debe ser entre 17 y 50 años" />');
 		}
 		$("#errEdadAtl").css("width",20);
 		
@@ -134,12 +132,12 @@ function inicio(){
 	$(".marca").blur(function(){
 		var marcaAux = $(".marca").val();
 		$(".errMarca").remove();
-		if(isNaN(marcaAux)==false && marcaAux !== ""){
+		if(isNaN(marcaAux)==false && marcaAux !== "" && marcaAux>=1 && 50 >= marcaAux){
 			
 			$(".errTxtMarca").html('<img class="errMarca" src="img/ok.jpg" />');
 		}
 		else {
-			$(".errTxtMarca").html('<img class="errMarca" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
+			$(".errTxtMarca").html('<img class="errMarca" src="img/error.jpg" data-toggle="tooltip" title="La marca debe estar entre 1 y 50" />');
 		}
 		$(".errMarca").css("width",20);
 		
@@ -147,14 +145,14 @@ function inicio(){
 
 	$("#marcaAtleta").blur(function(){
 		var marcaAux = $("#marcaAtleta").val();
-		$(".errMarcaAtl").remove();
-		if(isNaN(marcaAux)==false && marcaAux !== ""){
-			$(".errTxtMarca").html('<img class="errMarcaAtl" src="img/ok.jpg" />');
+		$("#errMarcaAtl").remove();
+		if(isNaN(marcaAux)==false && marcaAux !== ""&& marcaAux>=1 && 50 >= marcaAux){
+			$("#errTxtMarcaAtl").html('<img id="errMarcaAtl" src="img/ok.jpg" />');
 		}
 		else {
-			$(".errTxtMarca").html('<img class="errMarcaAtl" src="img/error.jpg" data-toggle="tooltip" title="Debes seleccionar un pais" />');
+			$("#errTxtMarcaAtl").html('<img id="errMarcaAtl" src="img/error.jpg" data-toggle="tooltip" title="La marca debe estar entre 1 y 50" />');
 		}
-		$(".errMarcaAtl").css("width",20);
+		$("#errMarcaAtl").css("width",20);
 		
 	});
 
@@ -378,56 +376,60 @@ function ingresarMarca(){
 	}
 }
 function botonRegistrarAtleta(){
+	var atletismo1 = [];
+	var atletismo2 = [];
+	var natacion =  [];
 	var ok= "img/ok.jpg"; // Declaro variable para checkear que los campos esten bien
 	
 	if($("#errnomAtl").attr("src") == ok && $("#errapAtl").attr("src") == ok && $('input[type=checkbox]:checked').length > 0){
 		
-		$('input[name="Atletismo_1[]"]:checked').each(function() {
-			atletismo1.push($(this).val());
-			atletismo1.push(0);
-		});
-		$('input[name="Atletismo_2[]"]:checked').each(function() {
-			atletismo2.push($(this).val());
-			atletismo2.push(0);
-		});
-		$('input[name="Natacion[]"]:checked').each(function() {
-			natacion.push($(this).val());
-			natacion.push(0);
-		});
+			$('input[name="Atletismo_1[]"]:checked').each(function() {
+				atletismo1.push($(this).val());
+				atletismo1.push(0);
+			});
+			$('input[name="Atletismo_2[]"]:checked').each(function() {
+				atletismo2.push($(this).val());
+				atletismo2.push(0);
+			});
+			$('input[name="Natacion[]"]:checked').each(function() {
+				natacion.push($(this).val());
+				natacion.push(0);
+			});
 
-		ultimoAtl = postulantes.length+1;
+			ultimoAtl = postulantes.length+1;
 
-		var disciplinas =
-		{
-			"atletismo1": atletismo1,
-			"marcaAtletismo1": [0,0,0,0,0],
-			"atletismo2": atletismo2,
-			"marcaAtletismo2": [0,0,0,0],
-			"natacion": natacion,
-			"marcaAtletismo1": [0,0,0,0]
-		}
+			var disciplinas =
+			{
+				"atletismo1": atletismo1,
+				"marcaAtletismo1": [0,0,0,0,0],
+				"atletismo2": atletismo2,
+				"marcaAtletismo2": [0,0,0,0],
+				"natacion": natacion,
+				"marcaAtletismo1": [0,0,0,0]
+			}
 
-		var post= // Creo Atleta con los datos ya validados
-		{ 
-			"nombre": nomAtl,
-			"apellido": apAtl,
-			"pais": paisAtl,
-			"edad": edadAtl,
-			"numeroAtl": ultimoAtl,
-			"disciplinas": disciplinas
-		}
+			var post= // Creo Atleta con los datos ya validados
+			{ 
+				"nombre": nomAtl,
+				"apellido": apAtl,
+				"pais": paisAtl,
+				"edad": edadAtl,
+				"numeroAtl": ultimoAtl,
+				"disciplinas": disciplinas
+			}
 
-		postulantes.push(post); // Lo agrego array*/
-		$("#atl2").append("<option value="+ultimoAtl+">"+"Nombre: "+nomAtl+" "+apAtl+"</option>");
-		alert("Candidato agregado con exito. Su N° es "+ ultimoAtl);
+			postulantes.push(post); // Lo agrego array*/
+			$("#atl2").append("<option value="+ultimoAtl+">"+"Nombre: "+nomAtl+" "+apAtl+"</option>");
+			alert("Candidato agregado con exito. Su N° es "+ ultimoAtl);
 		
-		$("#regAtlForm").trigger("reset"); // Limpio todos los campos
-		// Reinicio todas las imagenes de error
-		$("#errTxtNombre").html('');
-		$("#errTxtApellido").html('');
-		$("#errTxtPais").html('');
-		$("#errTxtEdad").html('');
-		$("#txtNombre").focus(); // Focus al primer campo del formulario
+			$("#regAtlForm").trigger("reset"); // Limpio todos los campos
+			// Reinicio todas las imagenes de error
+			$("#errTxtNombre").html('');
+			$("#errTxtApellido").html('');
+			$("#errTxtPais").html('');
+			$("#errTxtEdad").html('');
+			$("#txtNombre").focus(); // Focus al primer campo del formulario
+		
 	}
 	else {
 		var mensaje = "";
@@ -583,7 +585,7 @@ function drawChart() {
 				
 				for (var k = 0; lstMarcasAtletismoI.length > k; k=k+2) {//recorro las marcas oficiales
 					if (lstMarcasAtletismoI[k] == dis[j]) {
-						if (lstMarcasAtletismoI[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+						if (lstMarcasAtletismoI[k+1] >= dis[j+1]) { //si la marca del post es menor que la marca oficial
 							
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
 								if (post.pais == arrayPaises[h]) {
@@ -600,7 +602,7 @@ function drawChart() {
 				
 				for (var k = 0; lstMarcasAtletismoII.length > k; k=k+2) {//recorro las marcas oficiales
 					if (lstMarcasAtletismoII[k] == dis[j]) {
-						if (lstMarcasAtletismoII[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+						if (lstMarcasAtletismoII[k+1] >= dis[j+1]) { //si la marca del post es menor que la marca oficial
 							
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
 								if (post.pais == arrayPaises[h]) {
@@ -617,7 +619,7 @@ function drawChart() {
 				
 				for (var k = 0; lstMarcasNatacion.length > k; k=k+2) {//recorro las marcas oficiales
 					if (lstMarcasNatacion[k] == dis[j]) {
-						if (lstMarcasNatacion[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+						if (lstMarcasNatacion[k+1] >= dis[j+1]) { //si la marca del post es menor que la marca oficial
 							
 							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
 								if (post.pais == arrayPaises[h]) {
