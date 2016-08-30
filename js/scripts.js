@@ -1,4 +1,5 @@
 var arrayPaises = ['Uruguay', 'Brasil', 'Bolivia', 'Venezuela', 'Argentina', 'Inglaterra','Jamaica','Japon','Chile','Colombia','Cuba','Dinamarca','Ecuador','España','Grecia'];
+//esta guardando doble los atletas en reg de marca
 var postulantes = [];
 var nomAtl, apAtl, paisAtl, edadAtl, ultimoAtl;
 var atletismo1 = [];
@@ -59,7 +60,7 @@ function inicio(){
 	$("#btnMostrarAtl").click(botonMostrarAtl);
 
 	//click boton generar tarjeta atleta
-	//$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
+	$("#btnGenerarTarjeta").click(botonGenerarTarjeta);
 
 	//click al select de consultas disciplinas
 	$("#cat").click(mostrarDisciplinas);
@@ -436,7 +437,7 @@ function botonRegistrarAtleta(){
 		alert("Error en los campos de registro de Atleta.\n"+mensaje);
 	}
 }
-//modificar los array de las categorias y sus disciplinas
+
 function botonRegistrarMarcaAtleta(){
 	var numAtl = $("#atl").val();
 	var dis =$("#disc").val();
@@ -456,6 +457,8 @@ function botonRegistrarMarcaAtleta(){
 							if(marcaNueva <= marcaOlimpica){
 								alert("haz clacificado a las olimpiadas en esta disciplina");
 							}
+							$("#regMarcaForm").trigger("reset");
+							$("#atlDiv").hide();
 						}else{
 							if(disAtldeAtletismo1[i+1] >= marcaNueva){
 								postulantes[numAtl-1].disciplinas.atletismo1[i+1] = marcaNueva;
@@ -463,6 +466,8 @@ function botonRegistrarMarcaAtleta(){
 									alert("haz clacificado a las olimpiadas en esta disciplina");
 								}
 							}
+							$("#regMarcaForm").trigger("reset");
+							$("#atlDiv").hide();
 						}
 					}
 				}
@@ -470,7 +475,7 @@ function botonRegistrarMarcaAtleta(){
 		}
 	}
 }
-//modificar los array de las categorias y sus disciplinas
+
 function botonMostrarAtl(){
 	$('#atl').empty().append("<option>Seleccione un Atleta</option>");
 	var dis = $("#disc").val();
@@ -488,6 +493,7 @@ function botonMostrarAtl(){
 					}
 				}
 			}
+			//recorro atleismo2
 			if (postulantes[i].disciplinas.atletismo2.length >0 ) {
 				postulanteDis = postulantes[i].disciplinas.atletismo2;
 				for (var j=0; postulanteDis.length>j; j=j+2) {
@@ -497,6 +503,7 @@ function botonMostrarAtl(){
 					}
 				}
 			}
+			//recorro natacion
 			if (postulantes[i].disciplinas.natacion.length >0 ) {
 				postulanteDis = postulantes[i].disciplinas.natacion;
 				for (var j = 0; postulanteDis.length>j; j=j+2) {
@@ -509,7 +516,6 @@ function botonMostrarAtl(){
 		}
 		if (ok) {
 			$("#atlDiv").fadeIn();
-			
 		}
 	}
 	else{
@@ -518,76 +524,128 @@ function botonMostrarAtl(){
 		$('#atlDiv').hide();
 	}
 }
-//modificar los array de las categorias y sus disciplinas
-// function botonGenerarTarjeta(){
-// 	var numeroAtleta = $("#atl2").val();
-// 	var mostrar="";
-// 	for (var i = 0; postulantes.length >i; i++) {
-// 		if (numeroAtleta == postulantes[i].numeroAtl) {
-// 			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
-// 			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
-// 			if (postulantes[i].atletismo1.length>0) {						
-// 				mostrar+= "Atletismo I: "+ postulantes[i].atletismo1.join(' | ');
-// 				mostrar+= "\n";
-// 			}
+function botonGenerarTarjeta(){
+	var numeroAtleta = $("#atl2").val();
+	var mostrar="";
+	var disAtl1="| ";
+	var disAtl2="| ";
+	var disNat="| ";
+	//recorro lista postulantes
+	for (var i = 0; postulantes.length >i; i++) {
+		if (numeroAtleta == postulantes[i].numeroAtl) { //si tiene el mismo num entro
+			mostrar+= "Nombre: "+postulantes[i].nombre+"\n";
+			mostrar+= "Apellido: "+postulantes[i].apellido+"\n";
+			if (postulantes[i].disciplinas.atletismo1.length>0) {		
+				for (var j = 0; postulantes[i].disciplinas.atletismo1.length >j; j=j+2) {//recorro lista disciplinas atletismo1
+					disAtl1 += postulantes[i].disciplinas.atletismo1[j]+" | ";
+				}				
+				mostrar+= "Atletismo I: "+ disAtl1;
+				mostrar+= "\n";
+			}
 
-// 			if (postulantes[i].atletismo2.length>0) {						
-// 				mostrar+= "Atletismo II: "+ postulantes[i].atletismo2.join(' | ');
-// 				mostrar+= "\n";
-// 			}
-// 			if (postulantes[i].natacion.length>0) {						
-// 				mostrar+= "Natación: "+ postulantes[i].natacion.join(' | ');
-// 				mostrar+= "\n";
-// 			}
-// 			var options = {
-// 				text: mostrar
-// 			};
-// 			$("#tarjeta").empty().qrcode(options);
-// 			$("#tarjeta").css("text-align","center");
-// 		}
-// 	}
-// }
+			if (postulantes[i].disciplinas.atletismo2.length>0) {	
+				for (var j = 0; postulantes[i].disciplinas.atletismo2.length >j; j=j+2) {//recorro lista disciplinas atletismo2
+					disAtl2 += postulantes[i].disciplinas.atletismo2[j]+" | ";
+				}					
+				mostrar+= "Atletismo II: "+ disAtl2;
+				mostrar+= "\n";
+			}
+			if (postulantes[i].disciplinas.natacion.length>0) {	
+				for (var j = 0; postulantes[i].disciplinas.natacion.length >j; j=j+2) {//recorro lista disciplinas natacion
+					disNat += postulantes[i].disciplinas.natacion[j]+" | ";
+				}					
+				mostrar+= "Natación: "+ disNat;
+				mostrar+= "\n";
+			}
+			var options = {
+				text: mostrar
+			};
+			//genero el codigo qr
+			$("#tarjeta").empty().qrcode(options);
+			$("#tarjeta").css("text-align","center");
+		}
+	}
+}
 function botonConsultasDis(){
 	
 	$("#tablaAtletas").html("<table id='tabla'> <tr><th>Nombre:</th> <th>Apellido:</th> <th>Edad:</th></tr> </table>");
 }
-// function drawChart() {
-// 	var data = new google.visualization.DataTable();
-// 	//Agregamos las columnas (sólo para gráficos de torta)
-// 	data.addColumn('string', 'Carrera');
-// 	data.addColumn('number', 'Estudiantes graduados');
-// 	//Agregamos las filas (datos) que corresponden a cada columna
-// 	data.addRows([
-// 		['Electrónica', 300],
-// 		['Sistemas', 185],
-// 		['Biotecnología', 87],
-// 		['Telecomunicaciones', 58],
-// 		]);
- 	//Establecemos parámetros de configuración como el título del gráfico y su tamaño
-	//var options = {'title':'Distribución de graduados de la FI en 2015',
- 	//'width':800, 'height':500};
-	//Creamos el gráfico de torta y lo dibujamos en el div creado
-	//var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-// 	chart.draw(data, options);
-// }
 function drawChart() {
+	//filtro postulantes por pais y voy contando cuantas clasificaciones hay y sumo en lstClasificadosPaises
+		var lstClasificadosPaises = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+		for (var i = 0; postulantes.length >i; i++) {//recorro los postulantes
+			var post = postulantes[i];
+
+			for (var j = 0; post.disciplinas.atletismo1.length> j; j=j+2) {//recorro las disciplinas del atleta en atletismo1
+				
+				var dis = post.disciplinas.atletismo1;//capturo la disciplina
+				
+				for (var k = 0; lstMarcasAtletismoI.length > k; k=k+2) {//recorro las marcas oficiales
+					if (lstMarcasAtletismoI[k] == dis[j]) {
+						if (lstMarcasAtletismoI[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+							
+							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
+								if (post.pais == arrayPaises[h]) {
+									lstClasificadosPaises[h]++;
+								}
+							}
+						}
+					}
+				}
+			}
+			for (var j = 0; post.disciplinas.atletismo2.length> j; j=j+2) {//recorro las disciplinas del atleta en atletismo2
+				
+				var dis = post.disciplinas.atletismo2;//capturo la disciplina
+				
+				for (var k = 0; lstMarcasAtletismoII.length > k; k=k+2) {//recorro las marcas oficiales
+					if (lstMarcasAtletismoII[k] == dis[j]) {
+						if (lstMarcasAtletismoII[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+							
+							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
+								if (post.pais == arrayPaises[h]) {
+									lstClasificadosPaises[h]++;
+								}
+							}
+						}
+					}
+				}
+			}
+			for (var j = 0; post.disciplinas.natacion.length> j; j=j+2) {//recorro las disciplinas del atleta en natacion
+				
+				var dis = post.disciplinas.natacion;//capturo la disciplina
+				
+				for (var k = 0; lstMarcasNatacion.length > k; k=k+2) {//recorro las marcas oficiales
+					if (lstMarcasNatacion[k] == dis[j]) {
+						if (lstMarcasNatacion[k+1] > dis[j+1]) { //si la marca del post es menor que la marca oficial
+							
+							for (var h = 0; arrayPaises.length > h; h++) {//recorro los paises para guardar la clasificacion
+								if (post.pais == arrayPaises[h]) {
+									lstClasificadosPaises[h]++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
         var data = google.visualization.arrayToDataTable([
           ['Paises', 'Clasificados'],
-          ['Uruguay',     11],
-          ['Brasil',      2],
-          ['Bolivia',  2],
-          ['Venezuela', 2],
-          ['Argentina',    7],
-          ['Inglaterra',    7],
-          ['Jamaica',    7],
-          ['Japon',    7],
-          ['Chile',    7],
-          ['Colombia',    7],
-          ['Cuba',    7],
-          ['Dinamarca',    7],
-          ['Ecuador',    7],
-          ['España',    7],
-          ['Grecia',    7]
+          ['Uruguay',     lstClasificadosPaises[0]],
+          ['Brasil',      lstClasificadosPaises[1]],
+          ['Bolivia',  lstClasificadosPaises[2]],
+          ['Venezuela',lstClasificadosPaises[3]],
+          ['Argentina',   lstClasificadosPaises[4]],
+          ['Inglaterra',   lstClasificadosPaises[5]],
+          ['Jamaica',   lstClasificadosPaises[6]],
+          ['Japon',   lstClasificadosPaises[7]],
+          ['Chile',   lstClasificadosPaises[8]],
+          ['Colombia',   lstClasificadosPaises[9]],
+          ['Cuba',   lstClasificadosPaises[10]],
+          ['Dinamarca',   lstClasificadosPaises[11]],
+          ['Ecuador',   lstClasificadosPaises[12]],
+          ['España',   lstClasificadosPaises[13]],
+          ['Grecia',   lstClasificadosPaises[14]]
         ]);
 
         var options = {
