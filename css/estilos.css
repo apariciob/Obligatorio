@@ -102,4 +102,7 @@ footer {
 	width: auto;
 	margin: 5px 0;
 }
-
+#tablaAtletas .mostrarInfoAtl:hover{
+	background-color: black;
+	cursor:pointer;
+}
